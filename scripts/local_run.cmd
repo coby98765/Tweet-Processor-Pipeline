@@ -27,7 +27,7 @@ docker run --name data_retrieval_v1 -d -p 8000:8000 `
   coby98765/tpp-data_retrieval:v1
 
 #Run Docker Container retriever
-docker run --name retrieval_v2 -d `
+docker run --name retrieval_v1 -d `
  --network tpp-network `
   -e KAFKA_HOST=broker:9092 `
   -e DB_HOST=cluster0.6ycjkak.mongodb.net `
@@ -36,3 +36,29 @@ docker run --name retrieval_v2 -d `
   -e DB_USER=IRGC_NEW `
   -e DB_PASS=iran135 `
   coby98765/tpp-retriever:v1
+
+#Run Docker Container preprocessor
+docker run --name preprocessor_anti -d `
+ --network tpp-network `
+  -e KAFKA_HOST=broker:9092 `
+  -e TOPIC=antisemitic `
+  coby98765/tpp-preprocessor:v1
+
+docker run --name preprocessor_non_anti -d `
+ --network tpp-network `
+  -e KAFKA_HOST=broker:9092 `
+  -e TOPIC=non_antisemitic `
+  coby98765/tpp-preprocessor:v1
+
+#Run Docker Container enricher
+docker run --name enricher_anti -d `
+ --network tpp-network `
+  -e KAFKA_HOST=broker:9092 `
+  -e TOPIC=antisemitic `
+    coby98765/tpp-enricher:v1
+
+docker run --name enricher_non_anti -d `
+ --network tpp-network `
+  -e KAFKA_HOST=broker:9092 `
+  -e TOPIC=non_antisemitic `
+  coby98765/tpp-enricher:v1
