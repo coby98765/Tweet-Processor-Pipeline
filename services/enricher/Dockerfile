@@ -25,11 +25,8 @@ ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 #Declare ENV var's
-#ENV DB_NAME=""
-#ENV DB_COLL=""
-#ENV DB_USER=""
-#ENV DB_PASS=""
-#ENV API_PORT=""
+ENV TOPIC=""
+ENV KAFKA_HOST=""
 
 # Copy the application source code
 COPY . /app/
