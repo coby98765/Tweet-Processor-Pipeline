@@ -1,4 +1,4 @@
-﻿A-bomb
+﻿a-bomb
 ammo
 ammunition
 armaments
