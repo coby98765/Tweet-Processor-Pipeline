@@ -9,8 +9,7 @@ RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Copy and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install uvicorn fastapi pymongo
 
 # --- Stage 2: Build the final, lightweight image ---
 FROM python:3.12-slim

@@ -12,7 +12,7 @@ class DAL:
             self.client = MongoClient(self.DB_HOST)
             mydb = self.client[self.DB_NAME]
             collection = mydb[coll_name]
-            res = collection.find()
+            res = list(collection.find({}))
             return res
         except errors.ServerSelectionTimeoutError as err:
             print(f"Server selection timeout: {err}")
@@ -26,3 +26,8 @@ class DAL:
         except Exception as err:
             print(f"Unexpected error: {err}")
             raise
+        finally:
+            self.close_conn()
+
+    def close_conn(self):
+        self.client.close()
