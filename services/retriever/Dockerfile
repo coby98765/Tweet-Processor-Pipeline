@@ -34,6 +34,7 @@ ENV DB_PASS=""
 ENV DB_HOST=""
 ENV KAFKA_HOST=""
 
+
 # Make "services" importable and copy only what we need
 ENV PYTHONPATH=/app
 ARG SERVICE_DIR=services/retriever
