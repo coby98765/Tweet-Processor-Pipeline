@@ -1,16 +1,13 @@
 from fastapi import FastAPI
-from starlette.responses import JSONResponse
-
-from dal import DAL
+from manager import Manager
 
 app = FastAPI()
-dal = DAL()
+manager = Manager()
 
 @app.get('/antisemitic')
 def get_all_antisemitic():
     try:
-        all_data = dal.get_all('antisemitic')
-        return JSONResponse(content=all_data)
+        return manager.run('antisemitic')
     except Exception as ex:
         print(ex)
         raise Exception(ex)
@@ -18,8 +15,7 @@ def get_all_antisemitic():
 @app.get('/not_antisemitic')
 def get_all_not_antisemitic():
     try:
-        all_data = dal.get_all('not_antisemitic')
-        return JSONResponse(content=all_data)
+        return manager.run('not_antisemitic')
     except Exception as ex:
         print(ex)
         raise Exception(ex)
