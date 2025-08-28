@@ -23,11 +23,9 @@ class Sub:
 
     def sub(self):
         try:
-            massages = []
             for msg in self.consumer:
-                massages.append(msg)
+                yield msg
             print('data received')
-            return massages
         except Exception as ex:
             print(ex)
             raise Exception(ex)
