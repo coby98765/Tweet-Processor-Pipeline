@@ -3,14 +3,14 @@ from data_loader.load_txt import Loader
 import re
 
 class DataProcessing:
-    def __init__(self,tweet):
-        self.tweet = tweet
+    def __init__(self):
+        self.weapons = Loader.load_weapons()
 
-    def tweets_info(self):
-        self.tweet['sentiment'] = self.post_sentiment(self.tweet['clean_text'])
-        self.tweet['weapons_detected'] = self.detected_weapons(self.tweet['clean_text'])
-        self.tweet['relevant_timestamp'] = self.find_timestamp(self.tweet['original_text'])
-        return self.tweet
+    def tweets_info(self,tweet):
+        tweet['sentiment'] = self.post_sentiment(tweet['clean_text'])
+        tweet['weapons_detected'] = self.detected_weapons(tweet['clean_text'])
+        tweet['relevant_timestamp'] = self.find_timestamp(tweet['original_text'])
+        return tweet
 
     @staticmethod
     def post_sentiment(tweet):
@@ -22,12 +22,10 @@ class DataProcessing:
         else:
             return "neutral"
 
-    @staticmethod
-    def detected_weapons(tweet):
-        weapons_list = Loader.load_weapons()
+    def detected_weapons(self,tweet):
         weapons_detected = []
-        for weapon in weapons_list:
-            if weapon in tweet.lower().split():
+        for weapon in self.weapons:
+            if weapon in tweet.lower():
                 weapons_detected.append(weapon)
         return weapons_detected
 
