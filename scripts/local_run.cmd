@@ -62,3 +62,20 @@ docker run --name enricher_non_anti -d `
   -e KAFKA_HOST=broker:9092 `
   -e TOPIC=non_antisemitic `
   coby98765/tpp-enricher:v1
+
+#Run Docker Container persister
+docker run --name persister_anti -d `
+ --network tpp-network `
+  -e KAFKA_HOST=broker:9092 `
+  -e TOPIC=antisemitic `
+  -e DB_NAME=Tweets `
+  -e DB_HOST=mongodb `
+  coby98765/tpp-persister:v1
+
+docker run --name persister_non_anti -d `
+ --network tpp-network `
+  -e KAFKA_HOST=broker:9092 `
+  -e TOPIC=non_antisemitic `
+  -e DB_NAME=Tweets `
+  -e DB_HOST=mongodb `
+  coby98765/tpp-persister:v1
