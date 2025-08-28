@@ -10,13 +10,15 @@ RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Copy and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY ${SERVICE_DIR}/requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 # --- Stage 2: Build the final, lightweight image ---
 FROM python:3.12-slim
 
 WORKDIR /app
+ARG SERVICE_DIR=services/retriever
+
 
 # Copy the virtual environment with installed dependencies from the builder stage
 COPY --from=builder /opt/venv /opt/venv
@@ -31,8 +33,11 @@ ENV DB_HOST=""
 ENV TOPIC=""
 ENV KAFKA_HOST=""
 
-# Copy the application source code
-COPY . /app/
-WORKDIR /app
-# Command to run the Uvicorn server
-CMD ["python", "main.py"]
+# Make "services" importable and copy only what we need
+ENV PYTHONPATH=/app
+ARG SERVICE_DIR=services/persister
+COPY services ./services
+
+# Set working dir to the specific service and run
+WORKDIR /app/${SERVICE_DIR}
+CMD ["python","main.py"]

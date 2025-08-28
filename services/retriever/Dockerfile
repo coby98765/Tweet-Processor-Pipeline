@@ -4,7 +4,6 @@ FROM python:3.12-slim AS builder
 WORKDIR /app
 ARG SERVICE_DIR=services/retriever
 
-
 # Create a virtual environment to isolate dependencies
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
@@ -13,6 +12,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Copy and install dependencies
 COPY ${SERVICE_DIR}/requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
 
 # --- Stage 2: Build the final, lightweight image ---
 FROM python:3.12-slim
@@ -34,12 +34,12 @@ ENV DB_PASS=""
 ENV DB_HOST=""
 ENV KAFKA_HOST=""
 
-# Copy the application source code
+
+# Make "services" importable and copy only what we need
 ENV PYTHONPATH=/app
 ARG SERVICE_DIR=services/retriever
 COPY services ./services
 
 # Set working dir to the specific service and run
 WORKDIR /app/${SERVICE_DIR}
-
-CMD ["python", "main.py"]
+CMD ["python","main.py"]
