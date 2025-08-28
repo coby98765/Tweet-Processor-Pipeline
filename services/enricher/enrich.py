@@ -24,18 +24,20 @@ class DataProcessing:
 
     @staticmethod
     def detected_weapons(tweet):
-        weapons = Loader.load_weapons()
-        for weapon in weapons:
+        weapons_list = Loader.load_weapons()
+        weapons_detected = []
+        for weapon in weapons_list:
             if weapon in tweet.lower().split():
-                return weapon
-        return ''
+                weapons_detected.append(weapon)
+        return weapons_detected
 
     @staticmethod
     def find_timestamp(tweet):
         # Regex
         pattern = r"\b\d{4}-\d{2}-\d{2}(?:\s\d{2}:\d{2}:\d{2})?\b"
-        match = re.search(pattern, tweet)
+        match = re.findall(pattern, tweet)
         if match:
-            return match.group()
+            latest_date = max(match)
+            return latest_date
         return ''
 

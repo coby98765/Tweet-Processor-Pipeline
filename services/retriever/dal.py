@@ -50,6 +50,3 @@ class DAL:
             raise Exception(e)
         finally:
             self.close_conn()
-#
-# dal = DAL()
-# print(dal.get_data()[0])
