@@ -11,7 +11,7 @@ class DAL:
         self.DB_COLL = os.getenv("DB_COLL","tweets")
         DB_USER = os.getenv("DB_USER","IRGC_NEW")
         DB_PASS = os.getenv("DB_PASS","iran135")
-        self.limit = 10
+        self.limit = 100
         self.db_url = f"mongodb+srv://{DB_USER}:{DB_PASS}@{self.DB_HOST.lower()}/"
 
     def connect(self):
