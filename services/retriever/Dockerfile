@@ -2,6 +2,7 @@
 FROM python:3.12-slim AS builder
 
 WORKDIR /app
+ARG SERVICE_DIR=services/retriever
 
 # Create a virtual environment to isolate dependencies
 ENV VIRTUAL_ENV=/opt/venv

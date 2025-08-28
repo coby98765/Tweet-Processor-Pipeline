@@ -17,6 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 FROM python:3.12-slim
 
 WORKDIR /app
+ARG SERVICE_DIR=services/retriever
+
 
 # Copy the virtual environment with installed dependencies from the builder stage
 COPY --from=builder /opt/venv /opt/venv
