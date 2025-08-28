@@ -18,6 +18,5 @@ subscriber.connect()
 enrich = DataProcessing()
 if __name__ == '__main__':
     for tweet in subscriber.sub():
-        print(tweet)
         enriched_tweet = enrich.tweets_info(tweet)
         publisher.pub(enriched_tweet,pub_topic)
