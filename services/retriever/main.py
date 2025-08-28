@@ -7,8 +7,8 @@ import time
 dal = DAL()
 data = dal.get_data()
 #Kafka
-publisher1 = Pub("raw","antisemitic")
-publisher1.connect()
+publisher = Pub("raw")
+publisher.connect()
 
 if __name__ == "__main__":
     counter = 0
@@ -17,8 +17,8 @@ if __name__ == "__main__":
         tweets = Utils.normalize_objects(data)
         for tweet in tweets:
             if tweet["Antisemitic"]:
-                publisher1.pub(tweet,"raw_tweet_antisemitic")
+                publisher.pub(tweet, "raw_tweets_antisemitic")
             else:
-                publisher1.pub(tweet,"raw_tweet_non_antisemitic")
+                publisher.pub(tweet, "raw_tweets_non_antisemitic")
         counter += 1
         time.sleep(60)

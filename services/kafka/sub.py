@@ -1,33 +1,32 @@
 from kafka import KafkaConsumer
+import json
 import os
 
 class Sub:
-    def __init__(self,topic,bootstrap_servers,group):
-        self.topic_name = os.getenv(topic)
-        self.topic = f"{"Enter here"}_tweets_{self.topic_name}"
-        self.bootstrap_servers = os.getenv(bootstrap_servers)
-        self.group_id = os.getenv(group)
+    def __init__(self,topic):
+        self.bootstrap_servers = os.getenv("KAFKA_HOST","localhost:9092")
+        self.group_id = os.getenv("GROUP_ID","GROUP_ID")
+        self.topic = topic
         self.consumer = None
 
     def connect(self):
         try:
             self.consumer = KafkaConsumer(
-                self.topic_name,
+                self.topic,
                 bootstrap_servers=self.bootstrap_servers,
-                group_id=self.group_id
-                )
-            print('connected to kafka')
+                group_id=self.group_id,
+                value_deserializer=lambda v: json.loads(v.decode("utf-8"))
+            )
+            print('connected to kafka SUB')
         except Exception as ex:
             print(ex)
             raise Exception(ex)
 
     def sub(self):
         try:
-            massages = []
             for msg in self.consumer:
-                massages.append(msg)
-            print('data received')
-            return massages
+                print("received: ",msg.value,type(msg))
+                yield msg.value
         except Exception as ex:
             print(ex)
             raise Exception(ex)
