@@ -27,7 +27,12 @@ docker run --name data_retrieval_v1 -d -p 8000:8000 `
   coby98765/tpp-data_retrieval:v1
 
 #Run Docker Container retriever
-docker run --name retrieval_v1 -d `
+docker run --name retrieval_v2 -d `
  --network tpp-network `
-  -e KAFKA_HOST=broker `
+  -e KAFKA_HOST=broker:9092 `
+  -e DB_HOST=cluster0.6ycjkak.mongodb.net `
+  -e DB_NAME=IranMalDB `
+  -e DB_COLL=tweets `
+  -e DB_USER=IRGC_NEW `
+  -e DB_PASS=iran135 `
   coby98765/tpp-retriever:v1
